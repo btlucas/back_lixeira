@@ -29,7 +29,7 @@ export class UsersService {
 
   async findUserById(userId: string): Promise<User> {
     const user = await this.userRepository.findOne(userId, {
-      select: ['email', 'name', 'role', 'id'],
+      select: ['email', 'name', 'role', 'id', 'points', 'discards'],
     });
 
     if (!user) throw new NotFoundException('Usuário não encontrado');
@@ -39,10 +39,12 @@ export class UsersService {
 
   async updateUser(updateUserDto: UpdateUserDto, id: string): Promise<User> {
     const user = await this.findUserById(id);
-    const { name, email, role, status } = updateUserDto;
+    const { name, email, role, status, points, discards } = updateUserDto;
     user.name = name ? name : user.name;
     user.email = email ? email : user.email;
-    user.role = role ? role : user.role;
+    user.points = points ? points : user.points;
+    user.discards = discards ? discards : user.discards;
+    user.role = role ? role : user.role; 
     user.status = status === undefined ? user.status : status;
     try {
       await user.save();
