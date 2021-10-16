@@ -1,5 +1,5 @@
 import { UserRole } from '../user-roles.enum';
-import { IsString, IsEmail, IsOptional } from 'class-validator';
+import { IsString, IsEmail, IsOptional, IsInt, Min } from 'class-validator';
 export class UpdateUserDto {
   @IsOptional()
   @IsString({
@@ -18,6 +18,20 @@ export class UpdateUserDto {
 
   @IsOptional()
   role: UserRole;
+
+  @IsOptional()
+  @IsInt({
+    message: 'Informe um valor inteiro de pontos, maior ou igual a 0',
+  })
+  @Min(0)
+  points: number;
+
+  @IsOptional()
+  @IsInt({
+    message: 'Informe um número de inteiro descartes, maior ou igual a 0',
+  })
+  @Min(0)
+  discards: number;
 
   @IsOptional()
   status: boolean;
