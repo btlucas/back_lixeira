@@ -24,12 +24,6 @@ export class User extends BaseEntity {
   @Column({ nullable: false, type: 'varchar', length: 20 })
   role: string;
 
-  @Column({ nullable: true })
-  points: number;
-
-  @Column({ nullable: true })
-  discards: number;
-
   @Column({ nullable: false, default: true })
   status: boolean;
 
@@ -38,6 +32,12 @@ export class User extends BaseEntity {
 
   @Column({ nullable: false })
   salt: string;
+
+  @Column({ nullable: true })
+  points: number;
+
+  @Column({ nullable: true })
+  discards: number;
 
   @Column({ nullable: true, type: 'varchar', length: 64 })
   confirmationToken: string;
