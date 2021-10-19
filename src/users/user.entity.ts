@@ -33,10 +33,10 @@ export class User extends BaseEntity {
   @Column({ nullable: false })
   salt: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false, default: 0 })
   points: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false, default: 0 })
   discards: number;
 
   @Column({ nullable: true, type: 'varchar', length: 64 })
