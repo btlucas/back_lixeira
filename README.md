@@ -169,7 +169,6 @@ retorno esperado
     "recoverToken": null,
     "updatedAt": "Data"
 }
-
 # caso tente fazer uma alteração que não mude nada, n vai vir os tokens e updatedat no retorno
 ```
 Delete User (DELETE)
@@ -186,5 +185,112 @@ retorno esperado
 ```bash
 {
     "message": "Usuário removido com sucesso"
+}
+```
+
+Create Product (POST) - Somente admin
+
+```bash
+localhost:3000/products 
+```
+
+envio
+```bash
+{
+    "code": "código de barras",
+    "name": "nome",
+    "type": "tipo/material",
+    "imageData": "base64 da imagem (temporariamente salvo como string)",
+    "points": numero de pontos
+}
+```
+retorno esperado
+```bash
+{
+    "user": {
+        "code": "código de barras",
+        "name": "nome",
+        "type": "tipo/material",
+        "imageData": "base64 da imagem (temporariamente salvo como string)",
+        "points": numero de pontos,
+        "discards": numero de descartes, vai ser 0 na hora do cadastro
+        "id": "ID unico",
+        "createdAt": "Data",
+        "updatedAt": "Data"
+    },
+    "message": "Produto cadastrado com sucesso"
+}
+```
+
+Pegar os dados do produto pelo Id dele (GET)
+
+```bash
+localhost:3000/products/:id
+```
+
+envio
+```bash
+path params: id
+```
+retorno esperado
+```bash
+{
+    "user": {
+        "id": "Id",
+        "email": "E-mail",
+        "name": "Nome",
+        "role": "Papel"
+    },
+    "message": "Usuário encontrado"
+}
+```
+Update Product (PATCH)
+
+```bash
+localhost:3000/products/:id 
+```
+
+envio
+```bash
+path params: id
+
+# body com dados para atualizar, nenhum deles é obrigatório (passe somente o que quiser mudar)
+
+{
+    "code": "código de barras",
+    "name": "nome do produto",
+    "type": "material",
+    "imageData": "imagem",
+    "points": pontos,
+    "discards": numero de descartes
+}
+```
+retorno esperado
+```bash
+{
+    "code": "código de barras",
+    "name": "nome do produto",
+    "type": "material",
+    "imageData": "imagem",
+    "points": pontos,
+    "discards": numero de descartes,
+    "updatedAt": "Data"
+}
+# caso tente fazer uma alteração que não mude nada, n vai vir o updatedat no retorno
+```
+Delete Product (DELETE)
+
+```bash
+localhost:3000/products/:id 
+```
+
+envio
+```bash
+path params: id
+```
+retorno esperado
+```bash
+{
+    "message": "Produto removido com sucesso"
 }
 ```
