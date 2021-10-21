@@ -23,17 +23,17 @@ export class Product extends BaseEntity {
   @Column({ nullable: false, type: 'varchar', length: 20 })
   type: string;
 
-  // @Column({ name: 'imageData', type: 'bytea', nullable: false })
-  // imageData: Buffer;
-
-  @Column({ name: 'imageData', type: 'varchar', nullable: false, length: 10 })
-  imageData: string;
+  @Column({ name: 'imageData', type: 'bytea', nullable: false })
+  imageData: Buffer;
 
   @Column({ nullable: false })
   points: number;
 
   @Column({ nullable: false, default: 0 })
   discards: number;
+
+  @Column({ nullable: false, type: 'varchar', default: "" })
+  image: string;
 
   @CreateDateColumn()
   createdAt: Date;

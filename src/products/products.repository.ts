@@ -1,12 +1,10 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { Product } from './product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
-import { ProductRole } from './product-roles.enum';
 import {
   ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { CredentialsDto } from '../auth/dto/credentials.dto';
 import { FindProductsQueryDto } from './dto/find-products-query.dto';
 
 @EntityRepository(Product)
@@ -19,11 +17,7 @@ export class ProductRepository extends Repository<Product> {
 
     const { code, name, type, points, discards, imageData } = queryDto;
     const query = this.createQueryBuilder('product');
-    query.where('product.status = :status', { status });
-
-    if (code) {
-      query.andWhere('product.code ILIKE :code', { code: `%${code}%` });
-    }
+    query.where('product.code ILIKE :code', { code: `%${code}%` });
 
     if (name) {
       query.andWhere('product.name ILIKE :name', { name: `%${name}%` });
@@ -65,9 +59,11 @@ export class ProductRepository extends Repository<Product> {
     product.name = name;
     product.type = type;
     product.points = points;
-    product.imageData = imageData;
+    product.imageData = Buffer.from(imageData, 'base64');
     try {
       await product.save();
+      product.image = product.imageData.toString('base64')
+      delete product.imageData
       return product;
     } catch (error) {
       if (error.code.toString() === '23505') {

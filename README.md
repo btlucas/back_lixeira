@@ -200,20 +200,20 @@ envio
     "code": "código de barras",
     "name": "nome",
     "type": "tipo/material",
-    "imageData": "base64 da imagem (temporariamente salvo como string)",
+    "imageData": "base64 da imagem",
     "points": numero de pontos
 }
 ```
 retorno esperado
 ```bash
 {
-    "user": {
+    "product": {
         "code": "código de barras",
         "name": "nome",
         "type": "tipo/material",
-        "imageData": "base64 da imagem (temporariamente salvo como string)",
+        "image": "base64 da imagem",
         "points": numero de pontos,
-        "discards": numero de descartes, vai ser 0 na hora do cadastro
+        "discards": 0
         "id": "ID unico",
         "createdAt": "Data",
         "updatedAt": "Data"
@@ -235,14 +235,16 @@ path params: id
 retorno esperado
 ```bash
 {
-    "user": {
-        "id": "Id",
-        "email": "E-mail",
-        "name": "Nome",
-        "role": "Papel"
+    "product": {
+        "id": "id",
+        "code": "código de barras",
+        "name": "nome",
+        "type": "tipo/material",
+        "points": pontos,
+        "discards": numero de descartes,
+        "image": "base64 da imagem"
     },
-    "message": "Usuário encontrado"
-}
+    "message": "Produto encontrado"
 ```
 Update Product (PATCH)
 
@@ -259,8 +261,8 @@ path params: id
 {
     "code": "código de barras",
     "name": "nome do produto",
-    "type": "material",
-    "imageData": "imagem",
+    "type": "tipo/material",
+    "imageData": "imagem base64",
     "points": pontos,
     "discards": numero de descartes
 }
@@ -271,7 +273,7 @@ retorno esperado
     "code": "código de barras",
     "name": "nome do produto",
     "type": "material",
-    "imageData": "imagem",
+    "image": "imagem",
     "points": pontos,
     "discards": numero de descartes,
     "updatedAt": "Data"
