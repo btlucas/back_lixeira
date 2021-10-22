@@ -39,6 +39,12 @@ export class User extends BaseEntity {
   @Column({ nullable: false, default: 0 })
   discards: number;
 
+  @Column({ type: 'simple-json', nullable: false, default:[{productId: "", quantity: 0}] })
+  inventory: [{
+    productId: string,
+    quantity: number
+  }];
+
   @Column({ nullable: true, type: 'varchar', length: 64 })
   confirmationToken: string;
 

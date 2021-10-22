@@ -6,6 +6,6 @@ export class FindProductsQueryDto extends BaseQueryParametersDto {
   type: string;
   points: number;
   discards: number;
-  imageData: Buffer;
-  image: string;
+  imageData: string;
+  status: boolean;
 }

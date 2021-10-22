@@ -12,37 +12,19 @@ export class ProductRepository extends Repository<Product> {
   async findProducts(
     queryDto: FindProductsQueryDto,
   ): Promise<{ products: Product[]; total: number }> {
+    queryDto.status = queryDto.status === undefined ? true : queryDto.status;
+    queryDto.page = queryDto.page === undefined ? 1 : queryDto.page;
     queryDto.page = queryDto.page < 1 ? 1 : queryDto.page;
-    queryDto.limit = queryDto.limit > 100 ? 100 : queryDto.limit;
+    queryDto.limit = queryDto.limit > 100 ? 100 : queryDto.limit;    
 
-    const { code, name, type, points, discards, imageData } = queryDto;
+    const { code, name, type, points, discards, imageData, status } = queryDto;
     const query = this.createQueryBuilder('product');
-    query.where('product.code ILIKE :code', { code: `%${code}%` });
+    query.where('product.status = :status', { status });
 
-    if (name) {
-      query.andWhere('product.name ILIKE :name', { name: `%${name}%` });
-    }
-
-    if (type) {
-      query.andWhere('product.type ILIKE :type', { type: `%${type}` });
-    }
-
-    if (points) {
-      query.andWhere('product.points ILIKE :points', { points: `%${points}` });
-    }
-
-    if (discards) {
-      query.andWhere('product.discards ILIKE :discards', { discards: `%${discards}` });
-    }
-
-    if (imageData) {
-      query.andWhere('product.imageData ILIKE :imageData', { imageData: `%${imageData}` });
-    }
-
-    query.skip((queryDto.page - 1) * queryDto.limit);
-    query.take(+queryDto.limit);
+    // query.skip((queryDto.page - 1) * queryDto.limit);
+    // query.take(+queryDto.limit);
     query.orderBy(queryDto.sort ? JSON.parse(queryDto.sort) : undefined);
-    query.select(['product.code', 'product.name', 'product.type', 'product.points', 'product.discards', 'product.imageData']);
+    query.select(['product.id', 'product.code', 'product.name', 'product.type', 'product.points', 'product.discards', 'product.imageData', 'product.status']);
 
     const [products, total] = await query.getManyAndCount();
 
@@ -59,11 +41,9 @@ export class ProductRepository extends Repository<Product> {
     product.name = name;
     product.type = type;
     product.points = points;
-    product.imageData = Buffer.from(imageData, 'base64');
+    product.imageData = imageData;
     try {
       await product.save();
-      product.image = product.imageData.toString('base64')
-      delete product.imageData
       return product;
     } catch (error) {
       if (error.code.toString() === '23505') {

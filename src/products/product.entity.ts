@@ -23,9 +23,6 @@ export class Product extends BaseEntity {
   @Column({ nullable: false, type: 'varchar', length: 20 })
   type: string;
 
-  @Column({ name: 'imageData', type: 'bytea', nullable: false })
-  imageData: Buffer;
-
   @Column({ nullable: false })
   points: number;
 
@@ -33,7 +30,10 @@ export class Product extends BaseEntity {
   discards: number;
 
   @Column({ nullable: false, type: 'varchar', default: "" })
-  image: string;
+  imageData: string;
+
+  @Column({ nullable: false, default: true })
+  status: boolean;
 
   @CreateDateColumn()
   createdAt: Date;

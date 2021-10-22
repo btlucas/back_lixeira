@@ -14,14 +14,17 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { ReturnUserDto } from './dto/return-user.dto';
+import { ReturnInventoryDto } from './dto/return-inventory.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../auth/roles.guard';
 import { Role } from '../auth/role.decorator';
 import { UserRole } from './user-roles.enum';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateInventoryDto } from './dto/update-inventory.dto';
 import { User } from './user.entity';
 import { GetUser } from '../auth/get-user.decorator';
 import { FindUsersQueryDto } from './dto/find-users-query.dto';
+import { ProductsService } from '../products/products.service';
 
 @Controller('users')
 @UseGuards(AuthGuard(), RolesGuard)
@@ -63,6 +66,31 @@ export class UsersController {
     } else {
       return this.usersService.updateUser(updateUserDto, id);
     }
+  }
+
+  @Post('/updateInventory')
+  async addProductToInventory(
+    @Body(ValidationPipe) updateInventoryDto: UpdateInventoryDto,
+    @GetUser() user: User
+  ) {
+    if (user.role != UserRole.ADMIN && user.role != UserRole.GARBAGE_HUB) {
+      throw new ForbiddenException(
+        'Você não tem autorização para acessar esse recurso',
+      );
+    } else {
+      return this.usersService.addProductToInventory(updateInventoryDto);
+    }
+  }
+
+  @Get('/getFullInventory/:id')
+  @Role(UserRole.ADMIN)
+  async getFullInventory(@Param('id') id): Promise<ReturnInventoryDto> {
+    const user = await this.usersService.findUserById(id);
+    const inventory = user.inventory
+    return {
+      inventory,
+      message: 'Usuários encontrados',
+    };
   }
 
   @Delete(':id')

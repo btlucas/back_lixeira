@@ -24,11 +24,20 @@ export class ProductsService {
 
   async findProductById(productId: string): Promise<Product> {
     const product = await this.productRepository.findOne(productId, {
-      select: ['code', 'name', 'type', 'id', 'points', 'discards', 'imageData', 'image'],
+      select: ['code', 'name', 'type', 'id', 'points', 'discards', 'imageData', 'status'],
     });
     if (!product) throw new NotFoundException('Produto não encontrado');
-    product.image = product.imageData.toString('base64')
-    delete product.imageData
+    return product;
+  }
+
+  async findProductByCode(productCode: string): Promise<Product> {
+    const product = await this.productRepository.findOne({ 
+      select: ['code', 'name', 'type', 'id', 'points', 'discards', 'imageData', 'status'], 
+      where: { 
+        code: productCode 
+      }
+    });
+    if (!product) throw new NotFoundException('Produto não encontrado');
     return product;
   }
 
@@ -40,12 +49,9 @@ export class ProductsService {
     product.type = type ? type : product.type;
     product.points = points ? points : product.points;
     product.discards = discards ? discards : product.discards;     
-    product.imageData = imageData ? Buffer.from(imageData, 'base64') : product.imageData;
-    product.image = ""
+    product.imageData = imageData ? imageData : product.imageData;
     try {
       await product.save();
-      product.image = product.imageData.toString('base64')
-      delete product.imageData
       return product;
     } catch (error) {
       throw new InternalServerErrorException(

@@ -50,6 +50,16 @@ export class ProductsController {
     };
   }
 
+  @Get('/code/:code')
+  @Role(UserRole.ADMIN)
+  async findProductByCode(@Param('code') code): Promise<ReturnProductDto> {
+    const product = await this.productsService.findProductByCode(code);
+    return {
+      product,
+      message: 'Produto encontrado',
+    };
+  }
+
   @Patch(':id')
   async updateProduct(
     @Body(ValidationPipe) updateProductDto: UpdateProductDto,
