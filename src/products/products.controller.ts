@@ -51,7 +51,6 @@ export class ProductsController {
   }
 
   @Get('/code/:code')
-  @Role(UserRole.ADMIN)
   async findProductByCode(@Param('code') code): Promise<ReturnProductDto> {
     const product = await this.productsService.findProductByCode(code);
     return {
@@ -85,7 +84,6 @@ export class ProductsController {
   }
 
   @Get()
-  @Role(UserRole.ADMIN)
   async findProducts(@Query() query: FindProductsQueryDto) {
     const found = await this.productsService.findProducts(query);
     return {

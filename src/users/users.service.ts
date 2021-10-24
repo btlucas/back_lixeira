@@ -5,13 +5,14 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { getConnection } from "typeorm";
 import { UserRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './user.entity';
 import { UserRole } from './user-roles.enum';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { FindUsersQueryDto } from './dto/find-users-query.dto';
-import { UpdateInventoryDto } from './dto/update-inventory.dto';
+import { UpdateInventoryDto } from '../inventory/dto/update-inventory.dto';
 
 @Injectable()
 export class UsersService {
@@ -30,7 +31,7 @@ export class UsersService {
 
   async findUserById(userId: string): Promise<User> {
     const user = await this.userRepository.findOne(userId, {
-      select: ['email', 'name', 'role', 'id', 'points', 'discards', 'inventory'],
+      select: ['email', 'name', 'role', 'id', 'points', 'discards'],
     });
 
     if (!user) throw new NotFoundException('Usuário não encontrado');
@@ -38,33 +39,24 @@ export class UsersService {
     return user;
   }
 
-  async addProductToInventory(updateInventoryDto: UpdateInventoryDto): Promise<User> {
-    const { userId, productId, quantity } = updateInventoryDto;
-    const user = await this.findUserById(userId)
-    let add = quantity? quantity:1
-    let index = user.inventory.findIndex(obj => obj.productId == productId)
-    if(index == -1){
-      if(user.inventory[0].productId === ""){
-        user.inventory[0].productId = productId
-        user.inventory[0].quantity = add
-        user.discards = add
-      }else{
-        user.inventory.push({productId: productId, quantity: add})
-        user.discards += add
-      }      
-    }else{
-      user.inventory[index].quantity += add;
-      user.discards += add
-    }
-    try {
-      await user.save();
-      return user;
-    } catch (error) {
-      throw new InternalServerErrorException(
-        'Erro ao salvar os dados no banco de dados',
-      );
-    }
-  }
+  // async addProductToInventory(updateInventoryDto: UpdateInventoryDto): Promise<User> {
+  //   const { userId, productId, points } = updateInventoryDto;
+  //   await getConnection()
+  //         .createQueryBuilder()
+  //         .relation(User, "inventory")
+  //         .of(userId)
+  //         .add(productId);
+  //   const user = await this.findUserById(userId)
+  //   user.points += points;
+  //   try {      
+  //     await user.save();
+  //     return user;
+  //   } catch (error) {
+  //     throw new InternalServerErrorException(
+  //       'Erro ao salvar os dados no banco de dados',
+  //     );
+  //   }
+  // }
 
   async updateUser(updateUserDto: UpdateUserDto, id: string): Promise<User> {
     const user = await this.findUserById(id);

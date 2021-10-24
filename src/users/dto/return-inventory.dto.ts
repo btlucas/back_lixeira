@@ -1,6 +1,6 @@
 import { User } from '../user.entity';
 
 export class ReturnInventoryDto {
-  inventory: User["inventory"];
+  //inventory: User["inventory"];
   message: string;
 }

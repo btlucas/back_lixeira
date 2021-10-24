@@ -10,10 +10,4 @@ export class UpdateInventoryDto {
     message: 'Informe o id do produto',
   })
   productId: string;
-
-  @IsOptional()
-  @IsNotEmpty({
-    message: 'Informe a quantidade a ser descartada',
-  })
-  quantity: number;
 }

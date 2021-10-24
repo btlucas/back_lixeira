@@ -6,7 +6,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany
 } from 'typeorm';
+import { Inventory } from 'src/inventory/inventory.entity';
 
 @Entity()
 @Unique(['code'])
@@ -34,6 +36,9 @@ export class Product extends BaseEntity {
 
   @Column({ nullable: false, default: true })
   status: boolean;
+
+  @OneToMany(() => Inventory, inventory => inventory.product)
+  inventory: Inventory[];
 
   @CreateDateColumn()
   createdAt: Date;

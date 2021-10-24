@@ -20,7 +20,7 @@ import { RolesGuard } from '../auth/roles.guard';
 import { Role } from '../auth/role.decorator';
 import { UserRole } from './user-roles.enum';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UpdateInventoryDto } from './dto/update-inventory.dto';
+import { UpdateInventoryDto } from '../inventory/dto/update-inventory.dto';
 import { User } from './user.entity';
 import { GetUser } from '../auth/get-user.decorator';
 import { FindUsersQueryDto } from './dto/find-users-query.dto';
@@ -68,30 +68,30 @@ export class UsersController {
     }
   }
 
-  @Post('/updateInventory')
-  async addProductToInventory(
-    @Body(ValidationPipe) updateInventoryDto: UpdateInventoryDto,
-    @GetUser() user: User
-  ) {
-    if (user.role != UserRole.ADMIN && user.role != UserRole.GARBAGE_HUB) {
-      throw new ForbiddenException(
-        'Você não tem autorização para acessar esse recurso',
-      );
-    } else {
-      return this.usersService.addProductToInventory(updateInventoryDto);
-    }
-  }
+  // @Post('/updateInventory')
+  // async addProductToInventory(
+  //   @Body(ValidationPipe) updateInventoryDto: UpdateInventoryDto,
+  //   @GetUser() user: User
+  // ) {
+  //   if (user.role != UserRole.ADMIN && user.role != UserRole.GARBAGE_HUB) {
+  //     throw new ForbiddenException(
+  //       'Você não tem autorização para acessar esse recurso',
+  //     );
+  //   } else {
+  //     return this.usersService.addProductToInventory(updateInventoryDto);
+  //   }
+  // }
 
-  @Get('/getFullInventory/:id')
-  @Role(UserRole.ADMIN)
-  async getFullInventory(@Param('id') id): Promise<ReturnInventoryDto> {
-    const user = await this.usersService.findUserById(id);
-    const inventory = user.inventory
-    return {
-      inventory,
-      message: 'Usuários encontrados',
-    };
-  }
+  // @Get('/getFullInventory/:id')
+  // @Role(UserRole.ADMIN)
+  // async getFullInventory(@Param('id') id): Promise<ReturnInventoryDto> {
+  //   const user = await this.usersService.findUserById(id);
+  //   const inventory = user.inventory
+  //   return {
+  //     inventory,
+  //     message: 'Usuários encontrados',
+  //   };
+  // }
 
   @Delete(':id')
   @Role(UserRole.ADMIN)
