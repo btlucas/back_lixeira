@@ -60,6 +60,7 @@ export class ProductsController {
   }
 
   @Patch(':id')
+  @Role(UserRole.ADMIN)
   async updateProduct(
     @Body(ValidationPipe) updateProductDto: UpdateProductDto,
     @GetUser() user: User,

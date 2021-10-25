@@ -12,8 +12,6 @@ import { User } from './user.entity';
 import { UserRole } from './user-roles.enum';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { FindUsersQueryDto } from './dto/find-users-query.dto';
-import { UpdateInventoryDto } from '../inventory/dto/update-inventory.dto';
-
 @Injectable()
 export class UsersService {
   constructor(
@@ -38,25 +36,6 @@ export class UsersService {
 
     return user;
   }
-
-  // async addProductToInventory(updateInventoryDto: UpdateInventoryDto): Promise<User> {
-  //   const { userId, productId, points } = updateInventoryDto;
-  //   await getConnection()
-  //         .createQueryBuilder()
-  //         .relation(User, "inventory")
-  //         .of(userId)
-  //         .add(productId);
-  //   const user = await this.findUserById(userId)
-  //   user.points += points;
-  //   try {      
-  //     await user.save();
-  //     return user;
-  //   } catch (error) {
-  //     throw new InternalServerErrorException(
-  //       'Erro ao salvar os dados no banco de dados',
-  //     );
-  //   }
-  // }
 
   async updateUser(updateUserDto: UpdateUserDto, id: string): Promise<User> {
     const user = await this.findUserById(id);
