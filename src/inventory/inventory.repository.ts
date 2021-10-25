@@ -8,7 +8,6 @@ import {
 import { User } from 'src/users/user.entity';
 import { Product } from 'src/products/product.entity';
 import { getConnection } from "typeorm";
-import { ReturnFullInventoryDto } from './dto/return-full-inventory.dto';
 import { ReturnInventoryDto } from './dto/return-inventory.dto';
 @EntityRepository(Inventory)
 export class InventoryRepository extends Repository<Inventory> {

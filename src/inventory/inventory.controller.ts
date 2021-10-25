@@ -31,10 +31,12 @@ export class InventoryController {
   }
 
   @Get(':userId')
-  async findInventoryByUserId(@Param('userId') userId){
-    const inventory = await this.inventoryService.findInventoryByUserId(userId);
+  async findInventoryByUserId(@Param('userId') userId): Promise<ReturnFullInventoryDto>{
+    const retorno = await this.inventoryService.findInventoryByUserId(userId);
     return {
-      inventory
-    };
+      inventory: retorno.inventory,
+      totalPoints: retorno.totalPoints,
+      totalDiscards: retorno.totalDiscards
+    };;
   }
 }

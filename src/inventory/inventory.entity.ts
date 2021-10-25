@@ -1,7 +1,6 @@
 import {
   BaseEntity,
   Entity,
-  Unique,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
@@ -22,7 +21,7 @@ export class Inventory extends BaseEntity {
   @Column({ nullable: false, default: 0 })
   discards: number;
 
-  @ManyToOne(() => Product, product => product.inventory, { eager: true })
+  @ManyToOne(() => Product, product => product.inventory)
   product: Product;
 
   @ManyToOne(() => User, user => user.inventory)
