@@ -24,7 +24,7 @@ export class ContainerRepository extends Repository<Container> {
     // query.skip((queryDto.page - 1) * queryDto.limit);
     // query.take(+queryDto.limit);
     query.orderBy(queryDto.sort ? JSON.parse(queryDto.sort) : undefined);
-    query.select(['container.id', 'container.name', 'container.code', 'container.location', 'container.type', 'container.totalCapacity', 'container.usedCapacity']);
+    query.select(['container.id', 'container.name', 'container.code', 'container.location', 'container.type', 'container.totalCapacity', 'container.usedCapacity', 'container.capacityStatus']);
 
     const [containers, total] = await query.getManyAndCount();
 
