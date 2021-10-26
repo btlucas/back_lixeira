@@ -17,6 +17,9 @@ export class UpdateUserDto {
   email: string;
 
   @IsOptional()
+  imageData: string;
+
+  @IsOptional()
   role: UserRole;
 
   @IsOptional()

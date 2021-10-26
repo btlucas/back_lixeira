@@ -32,6 +32,9 @@ export class Container extends BaseEntity {
   @Column({ nullable: false, type: 'varchar', length: 20 })
   type: string;
 
+  @Column({ nullable: false, type: 'varchar', length: 20 })
+  capacityStatus: string;
+
   @Column({ nullable: false })
   totalCapacity: number;
 

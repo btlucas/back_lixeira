@@ -21,14 +21,14 @@ export class UserRepository extends Repository<User> {
     queryDto.page = queryDto.page < 1 ? 1 : queryDto.page;
     queryDto.limit = queryDto.limit > 100 ? 100 : queryDto.limit;
 
-    const { email, name, status, role } = queryDto;
+    const { email, name, status, role, imageData } = queryDto;
     const query = this.createQueryBuilder('user');
     query.where('user.status = :status', { status });
 
     //query.skip((queryDto.page - 1) * queryDto.limit);
     //query.take(+queryDto.limit);
     query.orderBy(queryDto.sort ? JSON.parse(queryDto.sort) : undefined);
-    query.select(['user.id', 'user.name', 'user.email', 'user.role', 'user.status']);
+    query.select(['user.id', 'user.name', 'user.email', 'user.role', 'user.status', 'product.imageData']);
 
     const [users, total] = await query.getManyAndCount();
 

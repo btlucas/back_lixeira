@@ -24,6 +24,11 @@ export class CreateUserDto {
   name: string;
 
   @IsNotEmpty({
+    message: 'Envie a imagem do usuario.',
+  })
+  imageData: string;
+
+  @IsNotEmpty({
     message: 'Informe uma senha',
   })
   @MinLength(6, {

@@ -42,6 +42,9 @@ export class User extends BaseEntity {
   @Column({ nullable: false, default: 0 })
   discards: number;
 
+  @Column({ nullable: false, type: 'varchar', default: "" })
+  imageData: string;
+
   @OneToMany(() => Inventory, inventory => inventory.user)
   inventory: Inventory[];
 

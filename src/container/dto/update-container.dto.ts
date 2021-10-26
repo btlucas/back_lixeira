@@ -13,9 +13,6 @@ export class UpdateContainerDto {
   name: string;
 
   @IsOptional()
-  // @IsJSON({
-  //   message: 'A localização deve ser um json'
-  // })
   location: {
     cep: string,
     street: string,

@@ -48,6 +48,17 @@ export class ContainersService {
     container.type = type ? type : container.type;
     container.totalCapacity = totalCapacity ? totalCapacity : container.totalCapacity;
     container.usedCapacity = usedCapacity ? usedCapacity : container.usedCapacity;
+    switch (true) {
+      case container.usedCapacity < 60:
+        container.capacityStatus = "ok";
+        break;
+      case container.usedCapacity <= 85:
+        container.capacityStatus = "warning";
+        break;
+      default:
+        container.capacityStatus = "alert";
+        break;
+    }    
     try {
       await container.save();
       return container;
