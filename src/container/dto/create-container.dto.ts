@@ -20,9 +20,6 @@ export class CreateContainerDto {
   @IsNotEmpty({
     message: 'Informe o endereço da lixeira.',
   })
-  // @IsJSON({
-  //   message: 'A localização deve ser um json'
-  // })
   location: {
     cep: string,
     street: string,

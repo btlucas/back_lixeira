@@ -23,7 +23,7 @@ export class ContainersService {
 
   async findContainerById(containerId: string): Promise<Container> {
     const container = await this.containerRepository.findOne(containerId, {
-      select: ['code', 'location', 'type', 'id', 'totalCapacity', 'usedCapacity', 'status', 'capacityStatus'],
+      select: ['code', 'location', 'type', 'id', 'totalCapacity', 'usedCapacity', 'status', 'capacityStatus', 'updatedAt'],
     });
     if (!container) throw new NotFoundException('Container não encontrado');
     return container;
@@ -31,7 +31,7 @@ export class ContainersService {
 
   async findContainerByCode(containerCode: string): Promise<Container> {
     const container = await this.containerRepository.findOne({ 
-      select: ['code', 'location', 'type', 'id', 'totalCapacity', 'usedCapacity', 'status', 'capacityStatus'], 
+      select: ['code', 'location', 'type', 'id', 'totalCapacity', 'usedCapacity', 'status', 'capacityStatus', 'updatedAt'], 
       where: { 
         code: containerCode 
       }

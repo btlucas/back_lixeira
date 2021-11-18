@@ -14,4 +14,5 @@ export class FindContainersQueryDto extends BaseQueryParametersDto {
   totalCapacity: number;
   usedCapacity: number;
   status: boolean;
+  updatedAt: Date;
 }
