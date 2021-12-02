@@ -102,19 +102,12 @@ export class ContainersController {
 
   @Get()
   async findContainers(
-    @Query() query: FindContainersQueryDto,
-    @GetUser() user: User
+    @Query() query: FindContainersQueryDto
   ) {  
-    if (user.role != UserRole.ADMIN && user.role != UserRole.GARBAGE_HUB ) {
-      throw new ForbiddenException(
-        'Você não tem autorização para acessar esse recurso',
-      );
-    } else {
-      const found = await this.containersService.findContainers(query);
+    const found = await this.containersService.findContainers(query);
     return {
       found,
       message: 'Containers encontrados',
     };
-    }
   }
 }
