@@ -43,37 +43,23 @@ export class ContainersController {
   @Get(':id')
   async findContainerById(
     @Param('id') id,
-    @GetUser() user: User,
   ): Promise<ReturnContainerDto> {
-    if (user.role != UserRole.ADMIN && user.role != UserRole.GARBAGE_HUB ) {
-      throw new ForbiddenException(
-        'Você não tem autorização para acessar esse recurso',
-      );
-    } else {
-      const container = await this.containersService.findContainerById(id);
-      return {
-        container,
-        message: 'Container encontrado',
-      };
-    }
+    const container = await this.containersService.findContainerById(id);
+    return {
+      container,
+      message: 'Container encontrado',
+    };
   }
 
   @Get('/code/:code')
   async findContainerByCode(
     @Param('code') code, 
-    @GetUser() user: User,
   ): Promise<ReturnContainerDto> {
-    if (user.role != UserRole.ADMIN && user.role != UserRole.GARBAGE_HUB ) {
-      throw new ForbiddenException(
-        'Você não tem autorização para acessar esse recurso',
-      );
-    } else {
-      const container = await this.containersService.findContainerByCode(code);
-      return {
-        container,
-        message: 'Container encontrado',
-      };
-    }
+    const container = await this.containersService.findContainerByCode(code);
+    return {
+      container,
+      message: 'Container encontrado',
+    };
   }
 
   @Patch(':id')
