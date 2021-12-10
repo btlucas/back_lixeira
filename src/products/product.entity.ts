@@ -28,6 +28,9 @@ export class Product extends BaseEntity {
   @Column({ nullable: false })
   points: number;
 
+  @Column({ nullable: false })
+  exp: number;
+
   @Column({ nullable: false, default: 0 })
   discards: number;
 

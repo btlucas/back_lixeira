@@ -31,6 +31,20 @@ export class UpdateUserDto {
 
   @IsOptional()
   @IsInt({
+    message: 'Informe um valor inteiro de exp, maior ou igual a 0',
+  })
+  @Min(0)
+  exp: number;
+
+  @IsOptional()
+  @IsInt({
+    message: 'Informe um valor inteiro de exp mensal, maior ou igual a 0',
+  })
+  @Min(0)
+  monthlyExp: number;
+
+  @IsOptional()
+  @IsInt({
     message: 'Informe um número de inteiro descartes, maior ou igual a 0',
   })
   @Min(0)

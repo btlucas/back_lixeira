@@ -17,14 +17,12 @@ export class ProductRepository extends Repository<Product> {
     queryDto.page = queryDto.page < 1 ? 1 : queryDto.page;
     queryDto.limit = queryDto.limit > 100 ? 100 : queryDto.limit;    
 
-    const { code, name, type, points, discards, imageData, status } = queryDto;
+    const { status } = queryDto;
     const query = this.createQueryBuilder('product');
     query.where('product.status = :status', { status });
 
-    // query.skip((queryDto.page - 1) * queryDto.limit);
-    // query.take(+queryDto.limit);
     query.orderBy(queryDto.sort ? JSON.parse(queryDto.sort) : undefined);
-    query.select(['product.id', 'product.code', 'product.name', 'product.type', 'product.points', 'product.discards', 'product.imageData', 'product.status']);
+    query.select(['product.id', 'product.code', 'product.name', 'product.type', 'product.points', 'product.exp', 'product.discards', 'product.imageData', 'product.status']);
 
     const [products, total] = await query.getManyAndCount();
 
@@ -34,13 +32,14 @@ export class ProductRepository extends Repository<Product> {
   async createProduct(
     createProductDto: CreateProductDto,
   ): Promise<Product> {
-    const { code, name, type, imageData, points } = createProductDto;
+    const { code, name, type, imageData, points, exp } = createProductDto;
 
     const product = this.create();
     product.code = code;
     product.name = name;
     product.type = type;
     product.points = points;
+    product.exp = exp;
     product.imageData = imageData;
     try {
       await product.save();

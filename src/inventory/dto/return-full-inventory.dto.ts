@@ -4,4 +4,5 @@ export class ReturnFullInventoryDto {
   inventory: Inventory[];
   totalPoints: number;
   totalDiscards: number;
+  totalExp: number;
 }

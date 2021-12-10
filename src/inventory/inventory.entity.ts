@@ -19,6 +19,9 @@ export class Inventory extends BaseEntity {
   points: number;
 
   @Column({ nullable: false, default: 0 })
+  exp: number;
+
+  @Column({ nullable: false, default: 0 })
   discards: number;
 
   @ManyToOne(() => Product, product => product.inventory)

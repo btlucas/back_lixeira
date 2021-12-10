@@ -83,4 +83,22 @@ export class UsersController {
       message: 'Usuários encontrados',
     };
   }
+
+  @Post('/rankingAll')
+  async findRankingByAllPoints(@Query() query: FindUsersQueryDto) {
+    const found = await this.usersService.findRankingByAllPoints(query);
+    return {
+      found,
+      message: 'Usuários encontrados',
+    };
+  }
+
+  @Post('/rankingMonth')
+  async findRankingByMonthlyExp(@Query() query: FindUsersQueryDto) {
+    const found = await this.usersService.findRankingByMonthlyExp(query);
+    return {
+      found,
+      message: 'Usuários encontrados',
+    };
+  }
 }

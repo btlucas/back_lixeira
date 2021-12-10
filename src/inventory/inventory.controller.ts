@@ -26,7 +26,8 @@ export class InventoryController {
     return {
       inventory: retorno.inventory,
       totalPoints: retorno.totalPoints,
-      totalDiscards: retorno.totalDiscards
+      totalDiscards: retorno.totalDiscards,
+      totalExp: retorno.totalExp
     };
   }
 
@@ -36,7 +37,8 @@ export class InventoryController {
     return {
       inventory: retorno.inventory,
       totalPoints: retorno.totalPoints,
-      totalDiscards: retorno.totalDiscards
+      totalDiscards: retorno.totalDiscards,
+      totalExp: retorno.totalExp
     };;
   }
 }

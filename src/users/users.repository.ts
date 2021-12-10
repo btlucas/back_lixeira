@@ -21,14 +21,52 @@ export class UserRepository extends Repository<User> {
     queryDto.page = queryDto.page < 1 ? 1 : queryDto.page;
     queryDto.limit = queryDto.limit > 100 ? 100 : queryDto.limit;
 
-    const { email, name, status, role, imageData } = queryDto;
+    const { status} = queryDto;
     const query = this.createQueryBuilder('user');
     query.where('user.status = :status', { status });
 
-    //query.skip((queryDto.page - 1) * queryDto.limit);
-    //query.take(+queryDto.limit);
     query.orderBy(queryDto.sort ? JSON.parse(queryDto.sort) : undefined);
-    query.select(['user.id', 'user.name', 'user.email', 'user.role', 'user.status', 'user.points', 'user.discards', 'user.imageData', 'user.status']);
+    query.select(['user.id', 'user.name', 'user.email', 'user.role', 'user.status', 'user.points', 'user.discards', 'user.imageData', 'user.status', 'user.exp', 'user.monthlyExp']);
+
+    const [users, total] = await query.getManyAndCount();
+
+    return { users, total };
+  }
+
+  async findRankingByAllExp(
+    queryDto: FindUsersQueryDto,
+  ): Promise<{ users: User[]; total: number }> {
+    queryDto.status = queryDto.status === undefined ? true : queryDto.status;
+    queryDto.page = queryDto.page === undefined ? 1 : queryDto.page;
+    queryDto.page = queryDto.page < 1 ? 1 : queryDto.page;
+    queryDto.limit = queryDto.limit > 100 ? 100 : queryDto.limit;
+
+    const { status} = queryDto;
+    const query = this.createQueryBuilder('user');
+    query.where('user.status = :status', { status });
+
+    query.orderBy('user.exp', 'DESC');
+    query.select(['user.name', 'user.discards', 'user.imageData', 'user.exp']);
+
+    const [users, total] = await query.getManyAndCount();
+
+    return { users, total };
+  }
+
+  async findRankingByMonthlyExp(
+    queryDto: FindUsersQueryDto,
+  ): Promise<{ users: User[]; total: number }> {
+    queryDto.status = queryDto.status === undefined ? true : queryDto.status;
+    queryDto.page = queryDto.page === undefined ? 1 : queryDto.page;
+    queryDto.page = queryDto.page < 1 ? 1 : queryDto.page;
+    queryDto.limit = queryDto.limit > 100 ? 100 : queryDto.limit;
+
+    const { status} = queryDto;
+    const query = this.createQueryBuilder('user');
+    query.where('user.status = :status', { status });
+
+    query.orderBy('user.monthlyExp', 'DESC');
+    query.select(['user.name', 'user.discards', 'user.imageData', 'user.monthlyExp']);
 
     const [users, total] = await query.getManyAndCount();
 
@@ -47,6 +85,8 @@ export class UserRepository extends Repository<User> {
     user.role = role;
     user.imageData = imageData;
     user.points = 0;
+    user.exp = 0;
+    user.monthlyExp = 0;
     user.discards = 0;
     user.status = true;
     user.confirmationToken = crypto.randomBytes(32).toString('hex');

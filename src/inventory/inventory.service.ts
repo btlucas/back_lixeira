@@ -38,7 +38,8 @@ export class InventoryService {
     return {
       inventory,
       totalPoints: user.points,
-      totalDiscards: user.discards
+      totalDiscards: user.discards,
+      totalExp: user.exp
     }
   }
 }

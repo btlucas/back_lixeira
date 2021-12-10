@@ -4,4 +4,5 @@ export class ReturnInventoryDto {
   inventory: Inventory;
   totalPoints: number;
   totalDiscards: number;
+  totalExp: number;
 }

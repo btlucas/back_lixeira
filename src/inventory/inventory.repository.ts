@@ -47,10 +47,13 @@ export class InventoryRepository extends Repository<Inventory> {
       inventory = this.create();
       inventory.user = user;
       user.points += product.points;
+      user.exp += product.exp;
+      user.monthlyExp += product.exp;
       user.discards += 1;
       inventory.product = product;
       inventory.discards = 1;
       inventory.points = inventory.product.points;
+      inventory.exp = inventory.product.exp;
       delete inventory.user.password
       delete inventory.user.salt
       delete inventory.user.confirmationToken
@@ -59,6 +62,9 @@ export class InventoryRepository extends Repository<Inventory> {
       inventory.discards += 1;
       inventory.points += product.points;
       user.points += product.points;
+      inventory.exp += product.exp;
+      user.exp += product.exp;
+      user.monthlyExp += product.exp;
       user.discards += 1;
     }
     try {
@@ -67,7 +73,8 @@ export class InventoryRepository extends Repository<Inventory> {
       return {
         inventory,
         totalPoints: user.points,
-        totalDiscards: user.discards
+        totalDiscards: user.discards,
+        totalExp: user.exp
       }
     } catch (error) {
       throw new InternalServerErrorException(

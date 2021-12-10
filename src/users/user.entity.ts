@@ -40,6 +40,12 @@ export class User extends BaseEntity {
   points: number;
 
   @Column({ nullable: false, default: 0 })
+  exp: number;
+  
+  @Column({ nullable: false, default: 0 })
+  monthlyExp: number;
+
+  @Column({ nullable: false, default: 0 })
   discards: number;
 
   @Column({ nullable: false, type: 'varchar', default: "" })

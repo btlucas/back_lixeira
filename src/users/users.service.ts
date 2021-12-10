@@ -28,7 +28,7 @@ export class UsersService {
 
   async findUserById(userId: string): Promise<User> {
     const user = await this.userRepository.findOne(userId, {
-      select: ['email', 'name', 'role', 'id', 'points', 'discards', 'imageData'],
+      select: ['email', 'name', 'role', 'id', 'points', 'discards', 'imageData', 'exp', 'monthlyExp'],
     });
 
     if (!user) throw new NotFoundException('Usuário não encontrado');
@@ -38,10 +38,12 @@ export class UsersService {
 
   async updateUser(updateUserDto: UpdateUserDto, id: string): Promise<User> {
     const user = await this.findUserById(id);
-    const { name, email, role, status, points, discards, imageData } = updateUserDto;
+    const { name, email, role, status, points, discards, imageData, exp, monthlyExp } = updateUserDto;
     user.name = name ? name : user.name;
     user.email = email ? email : user.email;
     user.points = points ? points : user.points;
+    user.exp = exp ? exp : user.exp;
+    user.monthlyExp = monthlyExp ? monthlyExp : user.monthlyExp;
     user.discards = discards ? discards : user.discards;
     user.role = role ? role : user.role; 
     user.status = status === undefined ? user.status : status;
@@ -69,6 +71,20 @@ export class UsersService {
     queryDto: FindUsersQueryDto,
   ): Promise<{ users: User[]; total: number }> {
     const users = await this.userRepository.findUsers(queryDto);
+    return users;
+  }
+
+  async findRankingByAllPoints(
+    queryDto: FindUsersQueryDto,
+  ): Promise<{ users: User[]; total: number }> {
+    const users = await this.userRepository.findRankingByAllExp(queryDto);
+    return users;
+  }
+
+  async findRankingByMonthlyExp(
+    queryDto: FindUsersQueryDto,
+  ): Promise<{ users: User[]; total: number }> {
+    const users = await this.userRepository.findRankingByMonthlyExp(queryDto);
     return users;
   }
 }

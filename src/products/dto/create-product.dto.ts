@@ -40,4 +40,9 @@ export class CreateProductDto {
     message: 'Informe os pontos que valem este produto.',
   })
   points: number;
+
+  @IsNotEmpty({
+    message: 'Informe a exp que vale este produto.',
+  })
+  exp: number;
 }
